@@ -1,25 +1,160 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable eqeqeq */
+import { Component } from "react";
+import Education from "./Components/Education";
+import GeneralInfo from "./Components/GeneralInfo";
+import Jobs from "./Components/Jobs";
+import CV from "./Components/CV";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      email: "",
+      phone: "",
+      about: "",
+      work: [],
+      education: [],
+    };
+
+    this.createCV = this.createCV.bind(this);
+    this.addWork = this.addWork.bind(this);
+    this.addEdu = this.addEdu.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeWork = this.handleChangeWork.bind(this);
+    this.handleChangeEdu = this.handleChangeEdu.bind(this);
+    this.deleteWork = this.deleteWork.bind(this);
+    this.deleteEdu = this.deleteEdu.bind(this);
+  }
+
+  createCV = () => {
+    const CV = document.querySelector("#CV")
+    CV.style.display = "block"
+  };
+
+  addWork = () => {
+    this.setState({
+      work: [
+        ...this.state.work,
+        {
+          company: "",
+          title: "",
+          from: "",
+          to: "",
+          id: Math.floor(Math.random() * 1000),
+        },
+      ],
+    });
+  };
+
+  addEdu = () => {
+    this.setState({
+      education: [
+        ...this.state.education,
+        {
+          school: "",
+          degree: "",
+          from: "",
+          to: "",
+          id: Math.floor(Math.random() * 1000 + 1000),
+        },
+      ],
+    });
+  };
+
+  deleteWork = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    console.log(target.id.toString());
+    const newWork = this.state.work.filter((job) => job.id != target.id);
+    console.log(newWork);
+    this.setState({
+      work: newWork,
+    });
+  };
+
+  deleteEdu = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    const newEdu = this.state.education.filter(
+      (school) => school.id != target.id
+    );
+    this.setState({
+      education: newEdu,
+    });
+  };
+
+  handleChange = (e) => {
+    const target = e.target;
+    const name = target.name;
+    this.setState({
+      [name]: target.value,
+    });
+  };
+
+  handleChangeWork = (e) => {
+    const target = e.target;
+    const name = target.name;
+    this.state.work.forEach((job) => {
+      if (target.id == job.id) job[name] = target.value;
+    });
+    this.setState({
+      work: this.state.work.map((job) => job),
+    });
+  };
+
+  handleChangeEdu = (e) => {
+    const target = e.target;
+    const name = target.name;
+    this.state.education.forEach((school) => {
+      if (target.id == school.id) school[name] = target.value;
+    });
+    this.setState({
+      education: this.state.education.map((school) => school),
+    });
+  };
+
+  render() {
+    const jobsArray = this.state.work.map((job) => {
+      return (
+        <Jobs
+          handleChange={this.handleChangeWork}
+          deleteWork={this.deleteWork}
+          key={job.id}
+          id={job.id}
+        />
+      );
+    });
+
+    const eduArray = this.state.education.map((school) => {
+      return (
+        <Education
+          handleChange={this.handleChangeEdu}
+          deleteEdu={this.deleteEdu}
+          key={school.id}
+          id={school.id}
+        />
+      );
+    });
+
+    return (
+      <div>
+        <GeneralInfo handleChange={this.handleChange} />
+        {jobsArray}
+        <button id="add-work" onClick={this.addWork}>
+          Add Work
+        </button>
+        {eduArray}
+        <button id="add-edu" onClick={this.addEdu}>
+          Add School
+        </button>
+        <button id="create-cv" onClick={this.createCV}>
+          Create
+        </button>
+        <CV cv={this.state} />
+      </div>
+    );
+  }
 }
 
 export default App;
