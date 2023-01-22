@@ -4,6 +4,7 @@ import Education from "./Components/Education";
 import GeneralInfo from "./Components/GeneralInfo";
 import Jobs from "./Components/Jobs";
 import CV from "./Components/CV";
+import "./Styles/builder.css"
 
 class App extends Component {
   constructor() {
@@ -65,9 +66,7 @@ class App extends Component {
   deleteWork = (e) => {
     e.preventDefault();
     const target = e.target;
-    console.log(target.id.toString());
     const newWork = this.state.work.filter((job) => job.id != target.id);
-    console.log(newWork);
     this.setState({
       work: newWork,
     });
@@ -138,20 +137,32 @@ class App extends Component {
     });
 
     return (
-      <div>
-        <GeneralInfo handleChange={this.handleChange} />
-        {jobsArray}
-        <button id="add-work" onClick={this.addWork}>
-          Add Work
-        </button>
-        {eduArray}
-        <button id="add-edu" onClick={this.addEdu}>
-          Add School
-        </button>
+      <div id="container">
+        <h1 id="header">CV Builder</h1>
+        <div id = "builder-container">
+          <div className="form-container">
+            <h1>General Information</h1>
+            <GeneralInfo handleChange={this.handleChange} />
+          </div>
+          <div  id="jobs-builder" className="form-container">
+            <h1>Work Experience</h1>
+            {jobsArray}
+            <button id="add-work" onClick={this.addWork}>
+              Add Work
+            </button>
+          </div>
+          <div className="form-container">
+            <h1>Education</h1>
+            {eduArray}
+            <button id="add-edu" onClick={this.addEdu}>
+              Add School
+            </button>
+          </div>
+          <CV cv={this.state} />
+        </div>
         <button id="create-cv" onClick={this.createCV}>
-          Create
+            Create
         </button>
-        <CV cv={this.state} />
       </div>
     );
   }
