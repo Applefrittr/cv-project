@@ -5,6 +5,8 @@ import GeneralInfo from "./Components/GeneralInfo";
 import Jobs from "./Components/Jobs";
 import CV from "./Components/CV";
 import "./Styles/builder.css";
+import Work from "./Assets/work.png"
+import Git from "./Assets/git.png"
 
 // Class App is our main componenet which holds our state values (CV information) - the values are set by the user through the component forms.  React library used
 // to build out DOM instead of the browsers DOM api
@@ -20,6 +22,7 @@ class App extends Component {
         name: "",
         email: "",
         phone: "",
+        social: "",
         about: "",
         work: [],
         education: [],
@@ -42,7 +45,7 @@ class App extends Component {
   createCV = () => {
     const modal = document.querySelector("#modal");
     const body = document.querySelector("body");
-    modal.style.display = "block";
+    modal.style.display = "flex";
     body.scrollIntoView();
     body.style.overflow = "hidden";
   };
@@ -197,7 +200,7 @@ class App extends Component {
 
     return (
       <div id="container">
-        <h1 id="header">CV Builder</h1>
+        <h1 id="header"><img src={Work} alt="work icon"></img> CV Builder</h1>
         <div id="builder-container">
           <div className="form-container">
             <h1>General Information</h1>
@@ -219,9 +222,15 @@ class App extends Component {
           </div>
         </div>
         <button id="create-cv" onClick={this.createCV}>
-          Create
+          Create CV
         </button>
         <CV cv={this.state} />
+        <footer>
+          Created January 2023 by Applefrittr
+          <a href="https://github.com/Applefrittr" rel= "noreferrer" target="_blank">
+            <img src={Git} alt="GitHub Applefrittr"></img>
+          </a>
+        </footer>
       </div>
     );
   }

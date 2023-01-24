@@ -1,7 +1,6 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  font-size: 1rem;
   overflow-y:visible;
 }
 
@@ -29,6 +28,7 @@
   /* grid-template-rows: 1fr 2fr; */
   width: 100%;
   gap: 1rem;
+  font-size: 1rem;
 }
 
 form {
@@ -58,11 +58,16 @@ form {
   align-items: flex-start;
 }
 
+.contact-container {
+  display: flex;
+}
+
 input {
   width:80%;
   appearance: none;
   border: none;
   border-bottom: 2px solid gray;
+  font-size: 1rem;
 }
 
 input:focus {
@@ -88,6 +93,7 @@ textarea {
   border: 2px solid gray;
   white-space: pre-wrap;
   white-space: pre-line;
+  font-size: 1rem;
 }
 
 textarea:focus {
@@ -128,4 +134,21 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     appearance: textfield;
-  }
+}
+
+#create-cv {
+  font-size: 2rem;
+}
+
+footer {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+a>img {
+  width: 24px;
+  height: auto;
+}

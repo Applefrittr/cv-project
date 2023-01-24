@@ -13,13 +13,19 @@ class GeneralInfo extends Component {
         </div>
 
         <div className="input-container">
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" onChange={this.props.handleChange} value={data.email}></input>
+          <label htmlFor="social" >Social Network</label>
+          <input name="social" onChange={this.props.handleChange} value={data.social}></input>
         </div>
 
-        <div className="input-container">
-          <label htmlFor="phone">Phone</label>
-          <input type="tel" name="phone" onChange={this.props.handleChange} value={data.phone}></input>  
+        <div className="contact-container">
+          <div className="input-container">
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" onChange={this.props.handleChange} value={data.email}></input>
+          </div>
+          <div className="input-container">
+            <label htmlFor="phone">Phone</label>
+            <input type="tel" name="phone" onChange={this.props.handleChange} value={data.phone}></input>
+          </div>
         </div>
 
         <div  className="input-container">

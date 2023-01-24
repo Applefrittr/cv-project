@@ -5,9 +5,11 @@
     left: 0;
     width: 100%;
     max-height: 100%;
-    display:none;
+    display: none;
     overflow-y: auto;
     padding: 10rem;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   #CV {
@@ -15,7 +17,8 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
     padding: 5rem;
-    gap: 2rem 5rem;
+    gap: 2rem 10rem;
+    font-size: 1.15rem;
   }
 
   #user-icon {
@@ -25,7 +28,12 @@
   }
 
   #cv-sidebar-info {
+    color: white;
+    background-color: rgb(31, 128, 255);
     grid-row: 1/4;
+    margin: -5rem;
+    padding-top: 5rem;
+    font-weight: bold;
   }
 
   .textarea-output {
@@ -35,3 +43,33 @@
   .align-left {
     text-align: left;
   }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .CV-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .CV-buttons {
+    font-size: 2rem;
+  }
+
+  #CV-save {
+    background-color: green;
+  }
+
+  #CV-save:hover {
+    background-color: rgb(0, 90, 0);
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
