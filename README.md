@@ -1,3 +1,11 @@
+# CV Project created by Applefrittr
+
+A CV creation tool implemented using the React javascript library.  Users input information into the text fields and DOM elements are then created/modified to reflect changes.
+
+Live preview: https://applefrittr.github.io/cv-project/
+
+## React documentation below
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
