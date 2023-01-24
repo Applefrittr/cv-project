@@ -2,6 +2,7 @@ import { Component } from "react";
 
 class Education extends Component {
   render() {
+    const data = this.props.data
     return (
       <form>
         <div className="input-container">
@@ -10,6 +11,7 @@ class Education extends Component {
               name="school"
               onChange={this.props.handleChange}
               id={this.props.id}
+              value={data.school}
             />
         </div>
 
@@ -19,6 +21,7 @@ class Education extends Component {
               name="degree"
               onChange={this.props.handleChange}
               id={this.props.id}
+              value={data.degree}
             />
         </div>
 
@@ -29,6 +32,7 @@ class Education extends Component {
               name="from"
               onChange={this.props.handleChange}
               id={this.props.id}
+              value={data.from}
             />
             <label htmlFor="to">to</label>
             <input
@@ -36,6 +40,7 @@ class Education extends Component {
               name="to"
               onChange={this.props.handleChange}
               id={this.props.id}
+              value={data.to}
             />
         </div>
 

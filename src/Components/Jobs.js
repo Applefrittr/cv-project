@@ -2,6 +2,7 @@ import { Component } from "react";
 
 class Jobs extends Component {
   render() {
+    const data = this.props.data
     return (
       <form>
         <div className="input-container">
@@ -10,6 +11,7 @@ class Jobs extends Component {
             name="company"
             onChange={this.props.handleChange}
             id={this.props.id}
+            value={data.company}
           />
         </div>
 
@@ -19,6 +21,7 @@ class Jobs extends Component {
             name="title"
             onChange={this.props.handleChange}
             id={this.props.id}
+            value={data.title}
           />
         </div>
 
@@ -29,6 +32,7 @@ class Jobs extends Component {
             name="from"
             onChange={this.props.handleChange}
             id={this.props.id}
+            value={data.from}
           />
           <label htmlFor="to">to</label>
           <input
@@ -36,12 +40,13 @@ class Jobs extends Component {
             name="to"
             onChange={this.props.handleChange}
             id={this.props.id}
+            value={data.to}
           />
         </div>
 
         <div className="input-container">
-          <label htmlFor="description">Duties</label>
-          <textarea name="description" onChange={this.props.handleChange}></textarea>
+          <label htmlFor="duties">Duties</label>
+          <textarea name="duties" onChange={this.props.handleChange} id={this.props.id} value={data.duties}></textarea>
         </div>
 
         <button id={this.props.id} onClick={this.props.deleteWork}>

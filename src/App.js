@@ -4,20 +4,30 @@ import Education from "./Components/Education";
 import GeneralInfo from "./Components/GeneralInfo";
 import Jobs from "./Components/Jobs";
 import CV from "./Components/CV";
-import "./Styles/builder.css"
+import "./Styles/builder.css";
 
+// Class App is our main componenet which holds our state values (CV information) - the values are set by the user through the component forms.  React library used
+// to build out DOM instead of the browsers DOM api
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      name: "",
-      email: "",
-      phone: "",
-      about: "",
-      work: [],
-      education: [],
-    };
+    // State value.  Work and education are object arrays.  Each object in the coresponding array has its own set of values
+    // localStorage.clear()
+    if (localStorage.getItem("state")) {
+      this.state = JSON.parse(localStorage.getItem("state"));
+    } else {
+      this.state = {
+        name: "",
+        email: "",
+        phone: "",
+        about: "",
+        work: [],
+        education: [],
+      };
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }
 
+    // bind all class methods to this App object
     this.createCV = this.createCV.bind(this);
     this.addWork = this.addWork.bind(this);
     this.addEdu = this.addEdu.bind(this);
@@ -28,11 +38,16 @@ class App extends Component {
     this.deleteEdu = this.deleteEdu.bind(this);
   }
 
+  // Create CV button will create a pop up modal with a filled out CV
   createCV = () => {
-    const CV = document.querySelector("#CV")
-    CV.style.display = "block"
+    const modal = document.querySelector("#modal");
+    const body = document.querySelector("body");
+    modal.style.display = "block";
+    body.scrollIntoView();
+    body.style.overflow = "hidden";
   };
 
+  // addWork method creates a new work object and adds (using spread operator) it into the state work array.  These objects are rendered as Job components in the DOM
   addWork = () => {
     this.setState({
       work: [
@@ -42,12 +57,19 @@ class App extends Component {
           title: "",
           from: "",
           to: "",
-          id: Math.floor(Math.random() * 1000),
+          duties: "",
+          id: Math.floor(Math.random() * 1000), //unique id for each work object created to be used as unique key and id values in the DOM
         },
       ],
     });
+    // Because this.setState() is async, we want to ensure that the state in the localStorgage gets updated after the this.state completes.  Thus, we use
+    // setTimeout to queue up localStorage.setItem() in the event loop
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // addEdu method creates a new school object and adds it into the state education array.  These objects are rendered as Education components in the DOM
   addEdu = () => {
     this.setState({
       education: [
@@ -57,12 +79,18 @@ class App extends Component {
           degree: "",
           from: "",
           to: "",
-          id: Math.floor(Math.random() * 1000 + 1000),
+          id: Math.floor(Math.random() * 1000 + 1000), //unique id for each school object created to be used as unique key and id values in the DOM
         },
       ],
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // Each job component rendered in the DOM has a delete button.  When clicked, that specific work object is filtered out of the this.state job array.  The job component
+  // is identified by it's unique id set when the work object was created
   deleteWork = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -70,8 +98,14 @@ class App extends Component {
     this.setState({
       work: newWork,
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // Same comment as deleteWork() but for the education array of this.state.  These two methods could be combined into one and using the event object to identify which
+  // array in this.state to filter
   deleteEdu = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -81,16 +115,28 @@ class App extends Component {
     this.setState({
       education: newEdu,
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // event handler method which sets the state of either name, email, phone, or about values in this.state depending on the event target and the coresponding "name"
+  // properties in the DOM elements
   handleChange = (e) => {
     const target = e.target;
     const name = target.name;
     this.setState({
       [name]: target.value,
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0)
   };
 
+  // same idea as handleChange() but with the added step of iterating through the work array and identifying the correct job object then the specific value to modify.
+  // array.map is then used to update this.state's work array
   handleChangeWork = (e) => {
     const target = e.target;
     const name = target.name;
@@ -100,8 +146,13 @@ class App extends Component {
     this.setState({
       work: this.state.work.map((job) => job),
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // see handleChangeWork(), same process but targeting this.state's education array
   handleChangeEdu = (e) => {
     const target = e.target;
     const name = target.name;
@@ -111,27 +162,35 @@ class App extends Component {
     this.setState({
       education: this.state.education.map((school) => school),
     });
+    // see same setTimeout call in addWork for reasoning
+    setTimeout(() => {
+      localStorage.setItem("state", JSON.stringify(this.state));
+    }, 0);
   };
 
+  // our component App's render method.  App's methods are passed to the form components as props
   render() {
+    //array.map() used to create an array of Job components to be rendered
     const jobsArray = this.state.work.map((job) => {
       return (
         <Jobs
           handleChange={this.handleChangeWork}
           deleteWork={this.deleteWork}
-          key={job.id}
-          id={job.id}
+          key={job.id} // Following React guidlines, unique id is set to each job object/component rendered
+          id={job.id} // The unique id's generated are passed as props to identify each job object/component in the DOM
+          data={job} // pass the job object itelsf as a prop to the Job component
         />
       );
     });
-
+    //array.map() used to create an array of Education components to be rendered
     const eduArray = this.state.education.map((school) => {
       return (
         <Education
           handleChange={this.handleChangeEdu}
           deleteEdu={this.deleteEdu}
-          key={school.id}
-          id={school.id}
+          key={school.id} // Following React guidlines, unique id is set to each school object/component rendered
+          id={school.id} // The unique id's generated are passed as props to identify each school object/component in the DOM
+          data={school} // pass the school object itself as a prop to the education component
         />
       );
     });
@@ -139,12 +198,12 @@ class App extends Component {
     return (
       <div id="container">
         <h1 id="header">CV Builder</h1>
-        <div id = "builder-container">
+        <div id="builder-container">
           <div className="form-container">
             <h1>General Information</h1>
-            <GeneralInfo handleChange={this.handleChange} />
+            <GeneralInfo handleChange={this.handleChange} data={this.state} />
           </div>
-          <div  id="jobs-builder" className="form-container">
+          <div id="jobs-builder" className="form-container">
             <h1>Work Experience</h1>
             {jobsArray}
             <button id="add-work" onClick={this.addWork}>
@@ -158,11 +217,11 @@ class App extends Component {
               Add School
             </button>
           </div>
-          <CV cv={this.state} />
         </div>
         <button id="create-cv" onClick={this.createCV}>
-            Create
+          Create
         </button>
+        <CV cv={this.state} />
       </div>
     );
   }
